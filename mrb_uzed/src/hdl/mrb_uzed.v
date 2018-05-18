@@ -22,7 +22,7 @@ module mrb_uzed
    input  wire        mcuclk_copy_p, mcuclk_copy_n,
    // Net "clk100_sel" to "clk100fo" sy89828, to select between MCU
    // clock and MRB's on-board 100 MHz oscillator.
-   output wire        clk100_sel,
+   // output wire        clk100_sel,
    // Configuration lines for Artix7 FPGA
    output wire        a7_cfg_sclk, a7_cfg_d_in, a7_cfg_program_b,
    input  wire        a7_cfg_done, a7_cfg_init_b,
@@ -33,7 +33,7 @@ module mrb_uzed
    // Output to drive DENABLE pins on all DRS4 chips
    output wire        drs_denable,
    // Generic lines to/from Artix7 FPGA
-   output wire        a7_softreset,
+   // output wire        a7_softreset,
    output wire [15:0] uztoa7spare,
    input  wire [15:0] a7touzspare,
    // To 74hc595 shift registers that drive infrequently-updated outputs
@@ -45,23 +45,25 @@ module mrb_uzed
    input  wire  [3:0] ro_sdatp, ro_sdatn,
    output wire        ro_holdp, ro_holdn,
    // Register-file I/O to/from Artix7, for slow control
-   output wire        bus_wdatp, bus_wdatn,
-   input  wire        bus_rdatp, bus_rdatn,
+   // output wire        bus_wdatp, bus_wdatn,
+   // input  wire        bus_rdatp, bus_rdatn,
    // Serial DACs to set various offset and common-mode voltages
    output wire        sdac_din, sdac_sclk,
    output wire  [1:0] sdac_syncn,
    // ++ added 2017-01-20
-   output wire        iv_scl0, iv_scl1,
-   inout  wire        iv_sda0, iv_sda1,
+   output wire        iv_scl0, // iv_scl1,
+   inout  wire        iv_sda0, // iv_sda1,
    input  wire        pgood6,
-   input  wire        clkcln_lckdtct,
+   // input  wire        clkcln_lckdtct,
    input  wire        clkdiv_lckdtct,
    output wire        misc_tp,
    output wire        tpspare_1, tpspare_2, tpspare_3,
    output wire        tpspare_4, tpspare_5, tpspare_6,
    // --
    // A few LEDs wired directly to MicroZed (Bank 13)
-   output wire  [3:0] uzled
+   output wire  [3:0] uzled,
+   // LEDs on Microzed IO carrier card from Adrian
+   output wire  [7:0] iocc_led
    );
     // This 100 MHz clock drives nearly all logic on the board; it
     // originates from either the MCU clock or an on-board 100 MHz
@@ -114,7 +116,7 @@ module mrb_uzed
     wire [15:0] obus;
     assign brddata = obus;
     bus_zynq_gpio bus_zynq_gpio
-      (.clk(clk), .clk100(clk100), .r0(r0), .r1(r1), .r2(r2),
+      (.clk(clk), .clk100(clk /* 100 */), .r0(r0), .r1(r1), .r2(r2),
        .r3(r3), .r4(r4), .r5(), .r6(r6), .r7(r7),
        .baddr(baddr), .bwr(bwr), .bstrobe(bstrobe),
        .bwrdata(bwrdata), .brddata(brddata));
@@ -123,8 +125,8 @@ module mrb_uzed
     zror #(16'h0001) r0001(ibus, obus, 16'hbeef);
     zror #(16'h0002) r0002(ibus, obus, 16'hdead);
     wire [15:0] q0003;
-    assign clk100_sel = q0003[0];
-    assign a7_softreset = q0003[1];
+    // assign clk100_sel = q0003[0];
+    // assign a7_softreset = q0003[1];
     zreg #(16'h0003) r0003(ibus, obus, q0003);
     wire [15:0] q0004;
     assign a7_cfg_program_b = ~q0004[8];
@@ -202,18 +204,18 @@ module mrb_uzed
     zreg #(16'h000a) r000a(ibus, obus, q000a);
     assign {sr_ds, sr_stcp, sr_stcp0, sr_shcp} = q000a[3:0];
     // assign sr_oe_n = ~q000a[4];
-    wire [15:0] q000b = {pgood6, 2'b00, iv_sda1, iv_sda0};
+    wire [15:0] q000b = {pgood6, 2'b00, 1'b0, /* iv_sda1, */ iv_sda0};
     zror #(16'h000b) r000b(ibus, obus, q000b);
     wire [15:0] q000c;
     wire iv_sda0_out = q000c[0];
     wire iv_sda1_out = q000c[1];
     assign iv_scl0   = q000c[4];
-    assign iv_scl1   = q000c[5];
+    // assign iv_scl1   = q000c[5];
     wire iv_sda0_dir = q000c[8];
     wire iv_sda1_dir = q000c[9];
     zreg #(16'h000c) r000c(ibus, obus, q000c);
     assign iv_sda0 = iv_sda0_dir ? iv_sda0_out : 1'bz;
-    assign iv_sda1 = iv_sda1_dir ? iv_sda1_out : 1'bz;
+    // assign iv_sda1 = iv_sda1_dir ? iv_sda1_out : 1'bz;
     wire [15:0] q000d;
     zreg #(16'h000d) r000d(ibus, obus, q000d);
     // assign misc_tp   = q000d[0];
@@ -239,7 +241,7 @@ module mrb_uzed
     assign uztoa7 = q0010;
     zror #(16'h0011,7) r0011(ibus, obus, a7touz[7:1]);
     wire [15:0] q0012;
-    assign q0012[0] = clkcln_lckdtct;
+    assign q0012[0] = 0; // clkcln_lckdtct;
     assign q0012[3:1] = 3'b0;
     assign q0012[4] = clkdiv_lckdtct;
     assign q0012[15:5] = 11'b0;
@@ -249,8 +251,8 @@ module mrb_uzed
     reg a7_bus_wdat1a = 0, a7_bus_wdat1b = 0;
     wire a7_bus_wdat9;
     wire a7_bus_rdat0;
-    zilvds i_a7_bus_rdat (a7_bus_rdat0, bus_rdatp, bus_rdatn);
-    zolvds o_a7_bus_wdat (a7_bus_wdat9, bus_wdatp, bus_wdatn);
+    // zilvds i_a7_bus_rdat (a7_bus_rdat0, bus_rdatp, bus_rdatn);
+    // zolvds o_a7_bus_wdat (a7_bus_wdat9, bus_wdatp, bus_wdatn);
     always @ (posedge clk100) a7_bus_rdat1 <= a7_bus_rdat0;
     reg a7_bus_rdat1=0, a7_bus_rdat2=0;
     // always @ (posedge clk100_ps1b) a7_bus_rdat1 <= a7_bus_rdat0;
@@ -473,7 +475,12 @@ module mrb_uzed
     assign sdac_syncn[1:0] = sdac_syncn_ff[1:0];
     assign sdac_din = sdac_shiftreg[15];
 
+    reg [27:0] foobar = 0;
+    always @ (posedge clk) begin
+	foobar <= foobar + 1;
+    end
 
+    assign iocc_led = q0003 ? q0003 : foobar[27:20];
 
 endmodule
 

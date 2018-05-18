@@ -16,7 +16,7 @@ set_property DIFF_TERM   FALSE   [get_ports mcuclk_copy_n]
 
 # Net "clk100_sel" to "clk100fo" sy89828
 set_property IOSTANDARD  LVCMOS25 [get_ports clk100_sel]
-set_property PACKAGE_PIN R19      [get_ports clk100_sel]
+# set_property PACKAGE_PIN R19      [get_ports clk100_sel]
 
 # Configuration lines for Artix7 FPGA
 set_property IOSTANDARD  LVCMOS25 [get_ports a7_cfg_sclk]
@@ -52,7 +52,7 @@ set_property PACKAGE_PIN R17      [get_ports clkdiv_sle]
 
 # Generic lines to/from Artix7 FPGA
 set_property IOSTANDARD  LVCMOS25 [get_ports a7_softreset]
-set_property PACKAGE_PIN R14      [get_ports a7_softreset]
+# set_property PACKAGE_PIN R14      [get_ports a7_softreset]
 set_property IOSTANDARD  LVDS_25  [get_ports {uztoa7spare[0]}]
 set_property PACKAGE_PIN C20      [get_ports {uztoa7spare[0]}]
 set_property IOSTANDARD  LVDS_25  [get_ports {uztoa7spare[1]}]
@@ -134,7 +134,7 @@ set_property PACKAGE_PIN P15      [get_ports sr_q55s]
 
 # To "idrom" ds2411, for unique serial number
 set_property IOSTANDARD  LVCMOS25 [get_ports idrom_d]
-set_property PACKAGE_PIN P14      [get_ports idrom_d]
+# set_property PACKAGE_PIN P14      [get_ports idrom_d]
 
 # High-speed waveform readout from Artix7
 set_property IOSTANDARD  LVDS_25 [get_ports {ro_sdatp[0]}]
@@ -168,14 +168,14 @@ set_property PACKAGE_PIN T15     [get_ports ro_holdn]
 
 # Register-file I/O to/from Artix7, for slow control
 set_property IOSTANDARD  LVDS_25 [get_ports bus_wdatp]
-set_property PACKAGE_PIN U13     [get_ports bus_wdatp]
+# set_property PACKAGE_PIN U13     [get_ports bus_wdatp]
 set_property IOSTANDARD  LVDS_25 [get_ports bus_wdatn]
-set_property PACKAGE_PIN V13     [get_ports bus_wdatn]
+# set_property PACKAGE_PIN V13     [get_ports bus_wdatn]
 set_property IOSTANDARD  LVDS_25 [get_ports bus_rdatp]
-set_property PACKAGE_PIN V12     [get_ports bus_rdatp]
+# set_property PACKAGE_PIN V12     [get_ports bus_rdatp]
 set_property DIFF_TERM   TRUE    [get_ports bus_rdatp]
 set_property IOSTANDARD  LVDS_25 [get_ports bus_rdatn]
-set_property PACKAGE_PIN W13     [get_ports bus_rdatn]
+# set_property PACKAGE_PIN W13     [get_ports bus_rdatn]
 set_property DIFF_TERM   TRUE    [get_ports bus_rdatn]
 
 # Serial DACs to set various offset and common-mode voltages
@@ -192,19 +192,19 @@ set_property PACKAGE_PIN W20      [get_ports {sdac_syncn[1]}]
 set_property IOSTANDARD  LVCMOS25 [get_ports iv_scl0]
 set_property PACKAGE_PIN P16      [get_ports iv_scl0]
 set_property IOSTANDARD  LVCMOS25 [get_ports iv_scl1]
-set_property PACKAGE_PIN U18      [get_ports iv_scl1]
+# set_property PACKAGE_PIN U18      [get_ports iv_scl1]
 set_property IOSTANDARD  LVCMOS25 [get_ports iv_sda0]
 set_property PACKAGE_PIN P18      [get_ports iv_sda0]
 set_property PULLTYPE    PULLUP   [get_ports iv_sda0]
 set_property IOSTANDARD  LVCMOS25 [get_ports iv_sda1]
-set_property PACKAGE_PIN U19      [get_ports iv_sda1]
+# set_property PACKAGE_PIN U19      [get_ports iv_sda1]
 set_property PULLTYPE    PULLUP   [get_ports iv_sda1]
 set_property IOSTANDARD  LVCMOS25 [get_ports pgood6]
 set_property PACKAGE_PIN R18      [get_ports pgood6]
 set_property IOSTANDARD  LVCMOS25 [get_ports clkcln_lckdtct]
-set_property PACKAGE_PIN U15      [get_ports clkcln_lckdtct]
+# set_property PACKAGE_PIN U15      [get_ports clkcln_lckdtct]
 set_property IOSTANDARD  LVCMOS25 [get_ports clkdiv_lckdtct]
-set_property PACKAGE_PIN U14      [get_ports clkdiv_lckdtct]
+# set_property PACKAGE_PIN U14      [get_ports clkdiv_lckdtct]
 set_property IOSTANDARD  LVCMOS25 [get_ports misc_tp]
 set_property PACKAGE_PIN J18      [get_ports misc_tp]
 set_property IOSTANDARD  LVCMOS25 [get_ports tpspare_1]
@@ -233,14 +233,41 @@ set_property PACKAGE_PIN W8 [get_ports {uzled[2]}]
 set_property IOSTANDARD LVCMOS25 [get_ports {uzled[3]}]
 set_property PACKAGE_PIN U5 [get_ports {uzled[3]}]
 
+# wja 2018-05-18
+# LEDs from Microzed IO Carrier Card from Adrian
+set_property IOSTANDARD LVCMOS25 [get_ports {iocc_led[0]}]
+set_property PACKAGE_PIN U14 [get_ports {iocc_led[0]}]
 
-set_property DONT_TOUCH true [get_cells design_1_i/processing_system7_0/inst]
-set_property DONT_TOUCH true [get_cells design_1_i/processing_system7_0]
-set_property DONT_TOUCH true [get_cells design_1_i/processing_system7_0_axi_periph/s00_couplers/auto_pc]
-set_property DONT_TOUCH true [get_cells design_1_i/processing_system7_0_axi_periph]
-set_property DONT_TOUCH true [get_cells design_1_i/rst_processing_system7_0_100M]
-set_property DONT_TOUCH true [get_cells design_1_i/wja_bus_lite_0]
-set_property DONT_TOUCH true [get_cells design_1_i]
+set_property IOSTANDARD LVCMOS25 [get_ports {iocc_led[1]}]
+set_property PACKAGE_PIN U15 [get_ports {iocc_led[1]}]
+
+set_property IOSTANDARD LVCMOS25 [get_ports {iocc_led[2]}]
+set_property PACKAGE_PIN U18 [get_ports {iocc_led[2]}]
+
+set_property IOSTANDARD LVCMOS25 [get_ports {iocc_led[3]}]
+set_property PACKAGE_PIN U19 [get_ports {iocc_led[3]}]
+
+set_property IOSTANDARD LVCMOS25 [get_ports {iocc_led[4]}]
+set_property PACKAGE_PIN R19 [get_ports {iocc_led[4]}]
+
+set_property IOSTANDARD LVCMOS25 [get_ports {iocc_led[5]}]
+set_property PACKAGE_PIN V13 [get_ports {iocc_led[5]}]
+
+set_property IOSTANDARD LVCMOS25 [get_ports {iocc_led[6]}]
+set_property PACKAGE_PIN P14 [get_ports {iocc_led[6]}]
+
+set_property IOSTANDARD LVCMOS25 [get_ports {iocc_led[7]}]
+set_property PACKAGE_PIN R14 [get_ports {iocc_led[7]}]
+
+
+
+set_property DONT_TOUCH true [get_cells bd_i/processing_system7_0/inst]
+set_property DONT_TOUCH true [get_cells bd_i/processing_system7_0]
+# set_property DONT_TOUCH true [get_cells bd_i/processing_system7_0_axi_periph/s00_couplers/auto_pc]
+# set_property DONT_TOUCH true [get_cells bd_i/processing_system7_0_axi_periph]
+# set_property DONT_TOUCH true [get_cells bd_i/rst_processing_system7_0_100M]
+set_property DONT_TOUCH true [get_cells bd_i/wja_bus_lite_0]
+set_property DONT_TOUCH true [get_cells bd_i]
 
 
 create_clock -period 10.000 -name clk100_p -waveform {0.000 5.000} [get_ports clk100_p]
@@ -250,3 +277,4 @@ create_clock -period 10.000 -name mcuclk_copy_p -waveform {0.000 5.000} [get_por
 set_false_path -from [get_clocks clk_fpga_0] -to [get_clocks clk100_p]
 set_false_path -from [get_clocks clk100_p] -to [get_clocks clk_fpga_0]
 set_false_path -from [get_clocks clk100_p] -to [get_clocks clk100_ps*]
+

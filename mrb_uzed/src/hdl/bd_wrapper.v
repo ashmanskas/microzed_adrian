@@ -36,13 +36,13 @@ module bd_wrapper
     // user IO pins:
     clk100_p, clk100_n,
     mcuclk_copy_p, mcuclk_copy_n,
-    clk100_sel,
+    // clk100_sel,
     a7_cfg_sclk, a7_cfg_d_in, a7_cfg_program_b,
     a7_cfg_done, a7_cfg_init_b,
     clkcln_sclk, clkcln_sdat, clkcln_sle,
     clkdiv_sclk, clkdiv_sdat, clkdiv_sle,
     drs_denable,
-    a7_softreset,
+    // a7_softreset,
     uztoa7spare,
     a7touzspare,
     sr_oe_n, sr_ds, sr_stcp, sr_stcp0, sr_shcp,
@@ -50,19 +50,20 @@ module bd_wrapper
     idrom_d,
     ro_sdatp, ro_sdatn,
     ro_holdp, ro_holdn,
-    bus_wdatp, bus_wdatn,
-    bus_rdatp, bus_rdatn,
+    // bus_wdatp, bus_wdatn,
+    // bus_rdatp, bus_rdatn,
     sdac_din, sdac_sclk,
     sdac_syncn,
-    iv_scl0, iv_scl1,  // ++ added 2017-01-20
-    iv_sda0, iv_sda1,
+    iv_scl0, // iv_scl1,  // ++ added 2017-01-20
+    iv_sda0, // iv_sda1,
     pgood6,
-    clkcln_lckdtct,
+    // clkcln_lckdtct,
     clkdiv_lckdtct,
     misc_tp,
     tpspare_1, tpspare_2, tpspare_3,
     tpspare_4, tpspare_5, tpspare_6, // --
-    uzled
+    uzled,
+    iocc_led
 );
   inout [14:0]DDR_addr;
   inout [2:0]DDR_ba;
@@ -88,13 +89,13 @@ module bd_wrapper
   // user IO pins:
   input         clk100_p, clk100_n;
   input         mcuclk_copy_p, mcuclk_copy_n;
-  output        clk100_sel;
+  // output        clk100_sel;
   output        a7_cfg_sclk, a7_cfg_d_in, a7_cfg_program_b;
   input         a7_cfg_done, a7_cfg_init_b;
   output        clkcln_sclk, clkcln_sdat, clkcln_sle;
   output        clkdiv_sclk, clkdiv_sdat, clkdiv_sle;
   output        drs_denable;
-  output        a7_softreset;
+  // output        a7_softreset;
   output [15:0] uztoa7spare;
   input  [15:0] a7touzspare;
   output        sr_oe_n, sr_ds, sr_stcp, sr_stcp0, sr_shcp;
@@ -102,19 +103,20 @@ module bd_wrapper
   inout         idrom_d;
   input   [3:0] ro_sdatp, ro_sdatn;
   output        ro_holdp, ro_holdn;
-  output        bus_wdatp, bus_wdatn;
-  input         bus_rdatp, bus_rdatn;
+  // output        bus_wdatp, bus_wdatn;
+  // input         bus_rdatp, bus_rdatn;
   output        sdac_din, sdac_sclk;
   output  [1:0] sdac_syncn;
-  output        iv_scl0, iv_scl1;  // ++ added 2017-01-20
-  inout         iv_sda0, iv_sda1;
+  output        iv_scl0; // , iv_scl1;  // ++ added 2017-01-20
+  inout         iv_sda0; // , iv_sda1;
   input         pgood6;
-  input         clkcln_lckdtct;
+  // input         clkcln_lckdtct;
   input         clkdiv_lckdtct;
   output        misc_tp;
   output        tpspare_1, tpspare_2, tpspare_3;
   output        tpspare_4, tpspare_5, tpspare_6; // --
   output  [3:0] uzled;
+  output  [7:0] iocc_led;
 
   wire [14:0]DDR_addr;
   wire [2:0]DDR_ba;
@@ -176,6 +178,7 @@ module bd_wrapper
   wire        tpspare_1, tpspare_2, tpspare_3;
   wire        tpspare_4, tpspare_5, tpspare_6; // --
   wire  [3:0] uzled;
+  wire  [7:0] iocc_led;
 
   bd bd_i
        (.DDR_addr(DDR_addr),
@@ -216,7 +219,6 @@ module bd_wrapper
      // user I/O pins:
      .clk100_p(clk100_p), .clk100_n(clk100_n),
      .mcuclk_copy_p(mcuclk_copy_p), .mcuclk_copy_n(mcuclk_copy_n),
-     .clk100_sel(clk100_sel),
      .a7_cfg_sclk(a7_cfg_sclk), .a7_cfg_d_in(a7_cfg_d_in),
      .a7_cfg_program_b(a7_cfg_program_b),
      .a7_cfg_done(a7_cfg_done), .a7_cfg_init_b(a7_cfg_init_b),
@@ -225,24 +227,22 @@ module bd_wrapper
      .clkdiv_sclk(clkdiv_sclk), .clkdiv_sdat(clkdiv_sdat),
      .clkdiv_sle(clkdiv_sle),
      .drs_denable(drs_denable),
-     .a7_softreset(a7_softreset),
      .uztoa7spare(uztoa7spare), .a7touzspare(a7touzspare),
      .sr_oe_n(sr_oe_n), .sr_ds(sr_ds), .sr_stcp(sr_stcp),
      .sr_stcp0(sr_stcp0), .sr_shcp(sr_shcp), .sr_q55s(sr_q55s),
      .idrom_d(idrom_d),
      .ro_sdatp(ro_sdatp), .ro_sdatn(ro_sdatn),
      .ro_holdp(ro_holdp), .ro_holdn(ro_holdn),
-     .bus_wdatp(bus_wdatp), .bus_wdatn(bus_wdatn),
-     .bus_rdatp(bus_rdatp), .bus_rdatn(bus_rdatn),
      .sdac_din(sdac_din), .sdac_sclk(sdac_sclk), .sdac_syncn(sdac_syncn),
-     .iv_scl0(iv_scl0), .iv_scl1(iv_scl1), 
-     .iv_sda0(iv_sda0), .iv_sda1(iv_sda1),
+     .iv_scl0(iv_scl0), 
+     .iv_sda0(iv_sda0), 
      .pgood6(pgood6),
-     .clkcln_lckdtct(clkcln_lckdtct), .clkdiv_lckdtct(clkdiv_lckdtct),
+     .clkdiv_lckdtct(clkdiv_lckdtct),
      .misc_tp(misc_tp),
      .tpspare_1(tpspare_1), .tpspare_2(tpspare_2), .tpspare_3(tpspare_3),
      .tpspare_4(tpspare_4), .tpspare_5(tpspare_5), .tpspare_6(tpspare_6),
-     .uzled(uzled)
+     .uzled(uzled),
+     .iocc_led(iocc_led)
 );
 
 endmodule
